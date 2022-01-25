@@ -30,6 +30,21 @@ def add(name, source, path, verbose, **kwargs):
 
 
 @kaze.command()
+@click.argument("name", default="")
+@click.argument("source", default="")
+@click.option("--path", '-o', default=None, help="target location for the dataset")
+@click.option("--verbose", "-v", is_flag=True, help="Verbose mode")
+def check(name, source, path, verbose, **kwargs):
+    print(f"adding {name} from {source}", kwargs)
+    config = load_yml(".kaze.yml") or defaultdict(list)
+    print(config)
+    new_entry = dict(name=name, source=source, path=path)
+    print(new_entry)
+    config['datasets'].append(new_entry)
+    write_yml({**config}, ".kaze.yml")
+
+
+@kaze.command()
 @click.argument("source", default="")
 @click.argument("output", default="")
 @click.argument("format", default="")
