@@ -1,4 +1,4 @@
-# Kaze, A CLI for Dataset Dependencies in ML Projects
+# Kaze, A CLI for Dataset Dependencies in ML Projects [![](https://img.shields.io/pypi/v/shields.svg?maxAge=3600&color=%2323aaff&label=PyPI)](https://pypi.org/project/kaze/)
 
 ## What is Kaze?
 
