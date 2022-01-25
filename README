@@ -1,0 +1,15 @@
+Kaze, A CLI for Dataset Dependencies in ML Projects
+===================================================
+
+What is Kaze?
+-------------
+
+Installation
+------------
+
+.. code-block:: bash
+
+   pip install kaze
+
+Example Usage
+-------------
