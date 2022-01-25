@@ -19,7 +19,7 @@ this will populate your `.datasets.yml` file with the following:
 ```yaml
 datasets:
   - name: mnist
-    url: https://s3.amazonaws.com/kaze-datasets/mnist.zip
+    source: https://s3.amazonaws.com/kaze-datasets/mnist.zip
     path: mnist
     type: zip
 ```

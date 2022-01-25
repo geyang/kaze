@@ -1,0 +1,4 @@
+datasets:
+- name: mnist
+  path: /Users/ge/datasets/mnist
+  source: https://s3.amazonaws.com/kaze-datasets/mnist.zip
