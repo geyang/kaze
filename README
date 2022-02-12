@@ -1,5 +1,5 @@
-Kaze, A CLI for Dataset Dependencies in ML Projects
-===================================================
+Kaze, A CLI for Dataset Dependencies in ML Projects |image1|
+============================================================
 
 What is Kaze?
 -------------
@@ -13,3 +13,34 @@ Installation
 
 Example Usage
 -------------
+
+To download a dataset, you can use the following command:
+
+.. code-block:: bash
+
+   kaze add mnist https://s3.amazonaws.com/kaze-datasets/mnist.zip
+
+this will populate your ``.datasets.yml`` file with the following:
+
+.. code-block:: yaml
+
+   datasets:
+     - name: mnist
+       source: https://s3.amazonaws.com/kaze-datasets/mnist.zip
+       path: mnist
+       type: zip
+
+You can also add a dataset from a local file:
+
+.. code-block:: yaml
+
+   kaze add mnist mnist.zip
+
+And finally, you can download a dataset from a remote URL:
+
+.. code-block:: yaml
+
+   kaze add mnist https://s3.amazonaws.com/kaze-datasets/mnist.zip
+
+.. |image1| image:: https://img.shields.io/pypi/v/shields.svg?maxAge=3600&color=%2323aaff&label=PyPI
+   :target: https://pypi.org/project/kaze/

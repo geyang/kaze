@@ -1,4 +1,3 @@
 datasets:
 - name: mnist
-  source: https://s3.amazonaws.com/kaze-datasets/mnist.zip
-  path: /Users/ge/datasets/mnist
+  source: https://data.deepai.org/mnist.zip

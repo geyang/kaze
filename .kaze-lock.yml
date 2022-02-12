@@ -1,0 +1,6 @@
+datasets:
+- name: mnist
+  source: https://data.deepai.org/mnist.zip
+  archive_path: /Users/ge/kaze_debug/mnist.zip
+  hash: be67442c50ec6398df1e5d6ea81b4951
+  path: /Users/ge/kaze_debug/mnist
