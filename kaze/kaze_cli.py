@@ -3,35 +3,12 @@ from collections import defaultdict
 from pathlib import Path
 
 import click
-from params_proto.neo_proto import Proto, ParamsProto
 from termcolor import cprint
 
+from kaze import Envs
 from kaze.curl_utils import download
 from kaze.file_utils import load_yml, write_yml, get_md5, decompress, is_archive
-from kaze.utils import include, omit
-
-
-class Envs(ParamsProto, cli=False):
-    KAZE_DATA_DIR = Proto(env='KAZE_DATA_DIR', default='$HOME/datasets')
-    DATA_DIR = Proto(env='DATA_DIR', default=KAZE_DATA_DIR.value)
-
-
-class NamedList(dict):
-    def add(self, name, **entry):
-        self[name] = dict(name=name, **entry)
-
-    def pick(self, *keys):
-        return [include(entry, *keys) for entry in self.to_list()]
-
-    def omit(self, *keys):
-        return [omit(entry, *keys) for entry in self.to_list()]
-
-    def from_list(self, entries):
-        for entry in entries:
-            self.add(**entry)
-
-    def to_list(self):
-        return list(self.values())
+from kaze.utils import omit, NamedList
 
 
 class KazeConfig:
@@ -48,7 +25,7 @@ class KazeConfig:
         self.config = omit(config, "datasets")
 
     def save(self):
-        write_yml(dict(datasets=self.datasets.omit("source", "archive_path", "hash"), **self.config),
+        write_yml(dict(datasets=self.datasets.omit("archive_path", "hash"), **self.config),
                   ".kaze.yml")
         write_yml({'datasets': self.datasets.pick("name", "source", "archive_path", "hash")},
                   ".kaze-lock.yml")
@@ -99,7 +76,7 @@ def add(source, name, path, image, label, voice, video, quiet, unzip, verbose, *
         print(f"Using the name {name}")
 
     if path is None:
-        path = Envs.DATA_DIR + "/" + name
+        path = Envs.DATASETS_ROOT + "/" + name
 
     # todo: ask to overwrite/download again if the dataset already exists
     if name in kaze_config.datasets:

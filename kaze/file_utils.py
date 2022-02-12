@@ -62,3 +62,14 @@ def decompress(source, dest, recursive=False):
                 decompress(dest + "/" + child, dest, recursive=False)
 
 
+def cwd_ancestors():
+    """generator returning the the current directory and ancestors one after another"""
+    import os
+    _ = os.path.abspath(os.getcwd())
+    while True:
+        yield _
+        parent = os.path.dirname(_)
+        if parent == _:
+            break
+        else:
+            _ = parent

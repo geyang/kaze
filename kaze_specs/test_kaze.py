@@ -3,18 +3,19 @@ import os
 import pytest
 from click.testing import CliRunner
 
-from kaze.kaze_cli import kaze, Envs
+from kaze.kaze_cli import kaze
+from kaze import Envs
 
-Envs.DATA_DIR = os.path.expandvars('$HOME/kaze_debug')
+Envs.DATASETS_ROOT = os.path.expandvars('$HOME/kaze_debug')
 
 
 @pytest.fixture
 def remove_data():
     try:
-        os.remove(Envs.DATA_DIR)
+        os.remove(Envs.DATASETS_ROOT)
     except Exception as e:
         pass
-    os.makedirs(Envs.DATA_DIR, exist_ok=True)
+    os.makedirs(Envs.DATASETS_ROOT, exist_ok=True)
 
 
 @pytest.fixture
