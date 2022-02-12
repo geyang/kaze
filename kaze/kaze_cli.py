@@ -66,7 +66,6 @@ def kaze(ctx):
         # todo: read from .kaze.yml instead
         # todo: add new entries to .kaze.yml
         for entry in kaze_config.datasets.to_list():
-            print(f"{entry['name']} exists?", os.path.exists(entry['path']))
             if not os.path.exists(entry['path']):
                 cprint(f"{entry['name']} is missing", "red")
                 download(entry['source'], entry['archive_path'])
@@ -120,6 +119,8 @@ def add(source, name, path, quiet, unzip, verbose, **kwargs):
         if answer.lower() == "y":
             download(source, archive_path)
 
+    # load again since the config files might have changed.
+    kaze_config.load()
     kaze_config.datasets.add(name=name, source=source, archive_path=archive_path,
                              hash=get_md5(archive_path), path=path)
 
@@ -136,5 +137,5 @@ def list_command():
     kaze_config = KazeConfig()
     kaze_config.load()
 
-    for entry in kaze_config.datasets:
-        print(f"{entry['name']}")
+    for entry in kaze_config.datasets.values():
+        print(f"{entry['name']} at {entry['path']}")
