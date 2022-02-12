@@ -53,16 +53,18 @@ def kaze(ctx):
                 cprint(f"{entry['name']} is missing", "red")
 
                 path = entry['path']
+                raw_path = os.path.expandvars(path)
                 source = entry['source']
                 if 'archive_path' in entry:
                     archive_path = entry['archive_path']
                 else:
+                    # this is inconsistent
                     archive_path = path + Path(source).suffix
                     entry['archive_path'] = archive_path
 
                 download(source, archive_path)
                 if is_archive(archive_path):
-                    decompress(archive_path, path)
+                    decompress(archive_path, raw_path)
                     os.remove(archive_path)
 
                 kaze_config.save()
@@ -91,6 +93,8 @@ def add(source, name, path, image, label, voice, video, quiet, unzip, verbose, *
     if path is None:
         path = Envs.DATASETS_ROOT + "/" + name
 
+    raw_path = os.path.expandvars(path)
+
     # todo: ask to overwrite/download again if the dataset already exists
     if name in kaze_config.datasets:
         answer = input(f"{name} has already been added. Update? [Y/n]") or "Y"
@@ -100,7 +104,7 @@ def add(source, name, path, image, label, voice, video, quiet, unzip, verbose, *
 
     cprint(f"adding {name} from {source}. Download to {path}", "blue")
 
-    archive_path = path + Path(source).suffix
+    archive_path = raw_path + Path(source).suffix
 
     if os.path.exists(archive_path):
         cprint(f"{name} already exists", "red")
@@ -124,7 +128,7 @@ def add(source, name, path, image, label, voice, video, quiet, unzip, verbose, *
                              image=image, label=label, voice=voice, video=video)
 
     if unzip or is_archive(archive_path):
-        decompress(archive_path, path)
+        decompress(archive_path, raw_path)
         # if remove_archive:
         os.remove(archive_path)
 
