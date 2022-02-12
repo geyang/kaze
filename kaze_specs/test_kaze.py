@@ -60,7 +60,5 @@ def test_kaze(remove_data):
     result = runner.invoke(
         kaze, input="y\n"
     )
-    print()
-    print(result.output)
     assert result.exit_code == 0
     assert "Found 1 dataset" in result.output

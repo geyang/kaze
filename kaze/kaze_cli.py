@@ -27,7 +27,7 @@ class KazeConfig:
     def save(self):
         write_yml(dict(datasets=self.datasets.omit("archive_path", "hash"), **self.config),
                   ".kaze.yml")
-        write_yml({'datasets': self.datasets.pick("name", "source", "archive_path", "hash")},
+        write_yml({'datasets': self.datasets.pick("name", "source", "path", "archive_path", "hash")},
                   ".kaze-lock.yml")
 
 
