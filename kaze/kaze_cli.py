@@ -62,10 +62,11 @@ def kaze(ctx):
                     archive_path = path + Path(source).suffix
                     entry['archive_path'] = archive_path
 
-                download(source, archive_path)
-                if is_archive(archive_path):
-                    decompress(archive_path, raw_path)
-                    os.remove(archive_path)
+                raw_archive_path = os.path.expandvars(archive_path)
+                download(source, raw_archive_path)
+                if is_archive(raw_archive_path):
+                    decompress(raw_archive_path, raw_path)
+                    os.remove(raw_archive_path)
 
                 kaze_config.save()
 
@@ -105,6 +106,7 @@ def add(source, name, path, image, label, voice, video, quiet, unzip, verbose, *
     cprint(f"adding {name} from {source}. Download to {path}", "blue")
 
     archive_path = raw_path + Path(source).suffix
+    raw_archive_path = os.path.expandvars(archive_path)
 
     if os.path.exists(archive_path):
         cprint(f"{name} already exists", "red")
@@ -112,14 +114,14 @@ def add(source, name, path, image, label, voice, video, quiet, unzip, verbose, *
         if answer.lower() == "y":
             os.remove(archive_path)
             print(f"Downloading {name} to {path}") or "Y"
-            download(source, archive_path)
+            download(source, raw_archive_path)
     elif quiet:
         print(f"Downloading {name} to {path}") or "Y"
-        download(source, archive_path)
+        download(source, raw_archive_path)
     else:
         answer = input(f"Download the file to {path}? [Y/n]") or "Y"
         if answer.lower() == "y":
-            download(source, archive_path)
+            download(source, raw_archive_path)
 
     # load again since the config files might have changed.
     kaze_config.load()
@@ -127,10 +129,10 @@ def add(source, name, path, image, label, voice, video, quiet, unzip, verbose, *
                              hash=get_md5(archive_path), path=path,
                              image=image, label=label, voice=voice, video=video)
 
-    if unzip or is_archive(archive_path):
-        decompress(archive_path, raw_path)
+    if unzip or is_archive(raw_archive_path):
+        decompress(raw_archive_path, raw_path)
         # if remove_archive:
-        os.remove(archive_path)
+        os.remove(raw_archive_path)
 
     kaze_config.save()
 
