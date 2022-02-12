@@ -20,8 +20,11 @@ class NamedList(dict):
     def add(self, name, **entry):
         self[name] = dict(name=name, **entry)
 
-    def filter_by(self, *keys):
+    def pick(self, *keys):
         return [include(entry, *keys) for entry in self.to_list()]
+
+    def omit(self, *keys):
+        return [omit(entry, *keys) for entry in self.to_list()]
 
     def from_list(self, entries):
         for entry in entries:
@@ -45,9 +48,10 @@ class KazeConfig:
         self.config = omit(config, "datasets")
 
     def save(self):
-        write_yml(dict(datasets=self.datasets.filter_by("name", "source"), **self.config),
+        write_yml(dict(datasets=self.datasets.omit("source", "archive_path", "hash"), **self.config),
                   ".kaze.yml")
-        write_yml(dict(datasets=self.datasets.to_list()), ".kaze-lock.yml")
+        write_yml({'datasets': self.datasets.pick("name", "source", "archive_path", "hash")},
+                  ".kaze-lock.yml")
 
 
 @click.group(invoke_without_command=True)
@@ -78,11 +82,15 @@ def kaze(ctx):
 @click.argument("source", default="")
 @click.option("--name", '-n', default=None)
 @click.option("--path", '-o', default=None, help="target location for the dataset")
+@click.option("--image", '-i', default=None, help="image path")
+@click.option("--label", default=None, help="label path")
+@click.option("--voice", default=None, help="voice path")
+@click.option("--video", default=None, help="video path")
 @click.option("--quiet", "-q", is_flag=True, help="Verbose mode")
 @click.option("--unzip", "-z", is_flag=True, help="Decompress the dataset")
 # @click.option("--remove_archive", "-z", is_flag=True, help="Decompress the dataset")
 @click.option("--verbose", "-v", is_flag=True, help="Verbose mode")
-def add(source, name, path, quiet, unzip, verbose, **kwargs):
+def add(source, name, path, image, label, voice, video, quiet, unzip, verbose, **kwargs):
     kaze_config = KazeConfig()
     kaze_config.load()
 
@@ -122,7 +130,8 @@ def add(source, name, path, quiet, unzip, verbose, **kwargs):
     # load again since the config files might have changed.
     kaze_config.load()
     kaze_config.datasets.add(name=name, source=source, archive_path=archive_path,
-                             hash=get_md5(archive_path), path=path)
+                             hash=get_md5(archive_path), path=path,
+                             image=image, label=label, voice=voice, video=video)
 
     if unzip or is_archive(archive_path):
         decompress(archive_path, path)
