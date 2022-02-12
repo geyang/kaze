@@ -46,13 +46,26 @@ def kaze(ctx):
 
         # todo: read from .kaze.yml instead
         # todo: add new entries to .kaze.yml
+
         for entry in kaze_config.datasets.to_list():
+
             if not os.path.exists(entry['path']):
                 cprint(f"{entry['name']} is missing", "red")
-                download(entry['source'], entry['archive_path'])
-                if is_archive(entry['archive_path']):
-                    decompress(entry['archive_path'], entry['path'])
-                    os.remove(entry['archive_path'])
+
+                path = entry['path']
+                source = entry['source']
+                if 'archive_path' in entry:
+                    archive_path = entry['archive_path']
+                else:
+                    archive_path = path + Path(source).suffix
+                    entry['archive_path'] = archive_path
+
+                download(source, archive_path)
+                if is_archive(archive_path):
+                    decompress(archive_path, path)
+                    os.remove(archive_path)
+
+                kaze_config.save()
 
 
 @kaze.command()
