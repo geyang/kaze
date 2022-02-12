@@ -46,7 +46,7 @@ class KazeConfig:
 
     def save(self):
         write_yml(dict(datasets=self.datasets.filter_by("name", "source"), **self.config),
-                  ".kaze-lock.yml")
+                  ".kaze.yml")
         write_yml(dict(datasets=self.datasets.to_list()), ".kaze-lock.yml")
 
 
