@@ -31,6 +31,6 @@ datasets:
 You can also add a dataset from a local file:
 
 ```yaml
-kaze add mnist mnist.zip
+kaze add mnist.zip
 ```
 
