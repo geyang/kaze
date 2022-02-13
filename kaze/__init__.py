@@ -1,10 +1,10 @@
 import glob
+import os.path
 from collections import defaultdict
-
-from params_proto.neo_proto import ParamsProto, Proto
 
 from kaze.file_utils import load_yml, cwd_ancestors
 from kaze.utils import NamedList
+from params_proto.neo_proto import ParamsProto, Proto
 
 
 class Envs(ParamsProto, cli=False):
@@ -31,9 +31,10 @@ class Datasets(NamedList):
         config = load_yml(config_path) or defaultdict(list)
         # config_lock = load_yml(".kaze-lock.yml") or defaultdict(list)
 
-
         for entry in config['datasets']:
-            self.add(**entry)
+            # resolve path
+            self.add(**{k: os.path.expandvars(v)
+                        for k, v in entry.items()})
 
 
 datasets = Datasets()
