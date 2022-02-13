@@ -12,16 +12,15 @@ pip install kaze
 
 To download a dataset, you can use the following command:
 ```bash
-kaze add mnist https://s3.amazonaws.com/kaze-datasets/mnist.zip
+kaze add -n flowers https://www.robots.ox.ac.uk/\~vgg/data/flowers/102/102flowers.tgz --images $DATASETS/jpg
 ```
 this will populate your `.datasets.yml` file with the following:
 
 ```yaml
 datasets:
-  - name: mnist
-    source: https://s3.amazonaws.com/kaze-datasets/mnist.zip
-    path: mnist
-    type: zip
+  - name: flowers
+    source: https://www.robots.ox.ac.uk/~vgg/data/flowers/102/102flowers.tgz
+    path: $DATASETS/jpg
 ```
 You can also add a dataset from a local file:
 

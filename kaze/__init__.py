@@ -22,10 +22,15 @@ class Datasets(NamedList):
                     break
                 except Exception:
                     pass
+
+        super().__init__()
+
+        if config_path is None:
+            return
+
         config = load_yml(config_path) or defaultdict(list)
         # config_lock = load_yml(".kaze-lock.yml") or defaultdict(list)
 
-        super().__init__()
 
         for entry in config['datasets']:
             self.add(**entry)

@@ -75,15 +75,15 @@ def kaze(ctx):
 @click.argument("source", default="")
 @click.option("--name", '-n', default=None)
 @click.option("--path", '-o', default=None, help="target location for the dataset")
-@click.option("--image", '-i', default=None, help="image path")
-@click.option("--label", default=None, help="label path")
+@click.option("--images", '-i', default=None, help="image path")
+@click.option("--labels", default=None, help="label path")
 @click.option("--voice", default=None, help="voice path")
 @click.option("--video", default=None, help="video path")
 @click.option("--quiet", "-q", is_flag=True, help="Verbose mode")
 @click.option("--unzip", "-z", is_flag=True, help="Decompress the dataset")
 # @click.option("--remove_archive", "-z", is_flag=True, help="Decompress the dataset")
 @click.option("--verbose", "-v", is_flag=True, help="Verbose mode")
-def add(source, name, path, image, label, voice, video, quiet, unzip, verbose, **kwargs):
+def add(source, name, path, images, labels, voice, video, quiet, unzip, verbose, **kwargs):
     kaze_config = KazeConfig()
     kaze_config.load()
 
@@ -127,7 +127,7 @@ def add(source, name, path, image, label, voice, video, quiet, unzip, verbose, *
     kaze_config.load()
     kaze_config.datasets.add(name=name, source=source, archive_path=archive_path,
                              hash=get_md5(archive_path), path=path,
-                             image=image, label=label, voice=voice, video=video)
+                             images=images, labels=labels, voice=voice, video=video)
 
     if unzip or is_archive(raw_archive_path):
         decompress(raw_archive_path, raw_path)
