@@ -37,7 +37,7 @@ You can also add a dataset from a local file:
 kaze add mnist.zip
 ```
 
-## Manuals
+## Usage and Examples
 
 ```bash
 ❯ kaze --help
@@ -50,8 +50,14 @@ Commands:
   add
   list
 ```
+### `kaze list`
 
-### `kaze add`
+```bash
+❯ kaze list
+mnist at /Users/ge/kaze_debug/mnist
+```
+
+### `kaze add ...`
 
 ```bash
 ❯ kaze add --help
