@@ -2,9 +2,10 @@ import glob
 import os.path
 from collections import defaultdict
 
+from params_proto.neo_proto import ParamsProto, Proto
+
 from kaze.file_utils import load_yml, cwd_ancestors
 from kaze.utils import NamedList
-from params_proto.neo_proto import ParamsProto, Proto
 
 
 class Envs(ParamsProto, cli=False):
@@ -33,8 +34,7 @@ class Datasets(NamedList):
 
         for entry in config['datasets']:
             # resolve path
-            self.add(**{k: os.path.expandvars(v)
-                        for k, v in entry.items()})
+            self.add(**entry, raw_path=os.path.expandvars(entry['path']))
 
 
 datasets = Datasets()
