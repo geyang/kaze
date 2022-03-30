@@ -1,6 +1,7 @@
 import glob
 import os.path
 from collections import defaultdict
+from pathlib import Path
 
 from params_proto.neo_proto import ParamsProto, Proto
 
@@ -34,7 +35,8 @@ class Datasets(NamedList):
 
         for entry in config['datasets']:
             # resolve path
-            self.add(**entry, raw_path=os.path.expandvars(entry['path']))
+            raw_path = os.path.expandvars(entry['path'])
+            self.add(**entry, raw_path=Path(raw_path))
 
 
 datasets = Datasets()
