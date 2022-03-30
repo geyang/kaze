@@ -12,7 +12,10 @@ def download(url="http://www.ovh.net/files/10Mb.dat", filename='test.dat'):
     progress_bar = tqdm(total=total_size_in_bytes, unit='iB', unit_scale=True)
 
     # make the parent directory
-    Path(filename).parent.mkdir()
+    try:
+        Path(filename).parent.mkdir()
+    except FileExistsError:
+        pass
 
     with open(filename, 'wb') as file:
         for data in response.iter_content(block_size):

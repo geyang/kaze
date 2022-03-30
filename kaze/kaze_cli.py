@@ -49,12 +49,14 @@ def kaze(ctx):
 
         for entry in kaze_config.datasets.to_list():
 
-            if not os.path.exists(entry['path']):
+            path = entry['path']
+            raw_path = os.path.expandvars(path)
+
+            if not os.path.exists(raw_path):
                 cprint(f"{entry['name']} is missing", "red")
 
-                path = entry['path']
-                raw_path = os.path.expandvars(path)
                 source = entry['source']
+
                 if 'archive_path' in entry:
                     archive_path = entry['archive_path']
                 else:
