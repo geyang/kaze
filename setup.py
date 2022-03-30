@@ -25,12 +25,13 @@ setup(
         "Programming Language :: Python :: 3"
     ],
     packages=find_packages(),
-    entry_points ={
+    entry_points={
         'console_scripts': [
             'kaze = kaze.kaze_cli:kaze'
         ]
     },
     install_requires=[
+        "click",
         "pyyaml",
         "termcolor",
         "functional_notations",
