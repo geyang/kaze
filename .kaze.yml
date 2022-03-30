@@ -1,4 +1,0 @@
-datasets:
-- name: mnist
-  source: https://data.deepai.org/mnist.zip
-  path: /Users/ge/kaze_debug/mnist
